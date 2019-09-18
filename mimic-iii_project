@@ -1,0 +1,39 @@
+% This file was created with JabRef 2.10.
+% Encoding: UTF-8
+
+
+@Article{Johnson2016,
+  Title                    = {MIMIC-III, a freely accessible critical care database},
+  Author                   = {Johnson, A. and Pollard, T. and Shen, L. and Lehman, L. and Feng, M. and Ghassemi, M. and Moody, B. and Szolovits, P. and Celi, L. and Mark, R.},
+  Journal                  = {Scientific Data},
+  Year                     = {2016},
+  Pages                    = {160035},
+  Volume                   = {3},
+
+  Owner                    = {walter},
+  Timestamp                = {2019.09.10}
+}
+
+@Article{Leffler2015,
+  Title                    = {Clostridium difficile Infection},
+  Author                   = {Leffler, D. and Lamont, T.},
+  Journal                  = {The New England Journal of Medicine},
+  Year                     = {2015},
+  Pages                    = {1539-1548},
+  Volume                   = {372},
+
+  Owner                    = {walter},
+  Timestamp                = {2019.09.12}
+}
+
+@Article{Rajkomar2018,
+  Title                    = {Scalable and accurate deep learning with electronic health records},
+  Author                   = {Rajkomar, A., Oren, E. and Dean, J.},
+  Journal                  = {npj Digital Medicine},
+  Year                     = {2018},
+  Volume                   = {1},
+
+  Owner                    = {walter},
+  Timestamp                = {2019.09.10}
+}
+
