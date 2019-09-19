@@ -5,13 +5,14 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import joblib
 
+from sklearn.linear_model import LogisticRegression
+
+
 #load logistic regression model
-model = joblib.load("../models/logistic_reg.mdl")
 #load random forest classifier
 
 #import one row of test set data frame
 #I'll append a row to this data frame when a user inputs data
-df = pd.read_csv("../data/df_for_app.csv")
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -105,6 +106,39 @@ app.layout = html.Div([
      Input('symptoms', 'value'),
      Input('los', 'value')])
 def update_outcome(adm_typ,adm_loc,race,symptoms,los):
-    return "LOW RISK"
+    model = joblib.load("../models/logistic_reg.mdl")
+    df = pd.read_csv("../data/df_for_app.csv")
+  
+    labels = []
+    values = []
+    #admission type
+    if adm_typ != 'SO':
+        labels.append(adm_typ)
+        values.append(1)
+    #admission location
+    if adm_loc != 'SO':
+        labels.append(adm_loc)
+        values.append(1)
+    #race
+    if race != 'SO':
+        labels.append(race)
+        values.append(1)
+    #symptoms
+    if symptoms != []:
+        #list of values
+        for l in symptoms:
+            labels.append(l)
+            values.append(1)
+       
+    labels.append("LOS")
+    values.append(los)
+    if symptoms != []:
+        #print(dict(zip(labels,values)))
+        df = df.append(dict(zip(labels,values)),ignore_index=True)
+        df.iloc[:,:].fillna(0,inplace=True)
+        risk_value = model.predict(df.iloc[-1:])
+        return risk_value
+    if symptoms == []:
+        return "LOW RISK"
 if __name__ == '__main__':
     app.run_server(debug=True)
