@@ -5,19 +5,17 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import joblib
 
-from sklearn.linear_model import LogisticRegression
-
-
 #load logistic regression model
 #load random forest classifier
 
 #import one row of test set data frame
 #I'll append a row to this data frame when a user inputs data
-
+#external_stylesheets = ['https://raw.githubusercontent.com/plotly/dash-app-stylesheets/master/dash-analytics-report.css']
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
+#external_stylesheets =['https://raw.githubusercontent.com/plotly/dash-app-stylesheets/master/dash-oil-and-gas.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+#app = dash.Dash()
 
 app.layout = html.Div([
     html.Label('Admission Type'),
@@ -78,7 +76,7 @@ app.layout = html.Div([
             {'label': 'Colitis', 'value':'COLITIS'},
             {'label': 'Pancreatitis', 'value':'PANCREATITIS'},
             {'label': 'Upper GI Bleed', 'value':'UPPER GI BLEED'},
-            {'label': 'Diarhhea', 'value':'DIARHHEA'}
+            {'label': 'Diarrhea', 'value':'DIARRHEA'}
         ],
         value=[]
     ),
@@ -89,8 +87,8 @@ app.layout = html.Div([
         id='los',
         min=0,
         max=14,
-        marks={i: '{}'.format(i) if i == 1 else str(i) for i in range(1, 14)},
-        value=7,
+        marks={i: '{}'.format(i) if i == 1 else str(i) for i in range(0, 14)},
+        value=0,
     ),
 
     html.Label('OUTCOME'),
