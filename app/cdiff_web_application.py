@@ -5,14 +5,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import joblib
 
-#load logistic regression model
-#load random forest classifier
-
-#import one row of test set data frame
-#I'll append a row to this data frame when a user inputs data
-#external_stylesheets = ['https://raw.githubusercontent.com/plotly/dash-app-stylesheets/master/dash-analytics-report.css']
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-#external_stylesheets =['https://raw.githubusercontent.com/plotly/dash-app-stylesheets/master/dash-oil-and-gas.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 #app = dash.Dash()
@@ -128,13 +121,14 @@ app.layout = html.Div([
     [Input('adm_type', 'value'),
      Input('adm_loc', 'value'),
      Input('race', 'value'),
+     Input('age', 'value'),
+     Input('temperature', 'value'),
+     Input('heart_rate', 'value'),
      Input('symptoms', 'value'),
      Input('los', 'value')])
-def update_outcome(adm_typ,adm_loc,race,symptoms,los):
-    #model = joblib.load("../models/logistic_reg.mdl")
-    #df = pd.read_csv("../data/df_for_app.csv")
+def update_outcome(adm_typ,adm_loc,race,age,temperature,heart_rate,symptoms,los):
     model = joblib.load("../models/logistic_regression_auc_071.mdl")
-    df = pd.read_csv("../data/df_for_app.csv")
+    df = pd.read_csv("../data/df_for_app_ver2.csv",index_col=0)
   
     labels = []
     values = []
@@ -150,6 +144,21 @@ def update_outcome(adm_typ,adm_loc,race,symptoms,los):
     if race != 'SO':
         labels.append(race)
         values.append(1)
+    #age
+    if age != None:
+        age_flt = float(age)
+        labels.append('ages')
+        values.append(age_flt)
+    #temperature
+    if temperature != None:
+        temperature_flt = float(temperature)
+        labels.append('temperature_F')
+        values.append(temperature_flt)
+    #heart rate
+    if heart_rate != None:
+        heart_rate_flt = float(heart_rate)
+        labels.append('heart_rate_bps')
+        values.append(heart_rate_flt)
     #symptoms
     if symptoms != []:
         #list of values
@@ -160,12 +169,20 @@ def update_outcome(adm_typ,adm_loc,race,symptoms,los):
     labels.append("LOS")
     values.append(los)
     if symptoms != []:
-        #print(dict(zip(labels,values)))
-        df = df.append(dict(zip(labels,values)),ignore_index=True)
-        df.iloc[:,:].fillna(0,inplace=True)
-        risk_value = model.predict_proba(df.iloc[-1:])[:,1]
-        return risk_value
-    if symptoms == []:
-        return "LOW RISK"
+        if (age == None) or (temperature == None) or (heart_rate == None):
+            return "ERROR: Are 'Ages', 'Temperature', or 'Heart Rate' filled in correctly?" 
+        else:
+            df = df.append(dict(zip(labels,values)),ignore_index=True)
+            df.iloc[:,:].fillna(0,inplace=True)
+            risk_value = model.predict_proba(df.iloc[-1:])[:,1]
+            return risk_value
+    else:
+        if (age == None) or (temperature == None) or (heart_rate == None):
+            return "ERROR: Are 'Ages', 'Temperature', or 'Heart Rate' filled in correctly?" 
+        else:
+            df = df.append(dict(zip(labels,values)),ignore_index=True)
+            df.iloc[:,:].fillna(0,inplace=True)
+            risk_value = model.predict_proba(df.iloc[-1:])[:,1]
+            return risk_value
 if __name__ == '__main__':
     app.run_server(debug=True)
