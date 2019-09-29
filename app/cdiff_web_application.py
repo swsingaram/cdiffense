@@ -4,11 +4,23 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import pandas as pd
 import joblib
+import plotly.graph_objs as go
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 #app = dash.Dash()
+#get positive and negative C. Diff. populations
+with open("../data/p_dists/cdiff_pos_prob.csv") as f_pos:
+    p_pos = f_pos.read().splitlines()
+
+p_pos = [float(i) for i in p_pos]
+
+with open("../data/p_dists/cdiff_neg_prob.csv") as f_neg:
+    p_neg = f_neg.read().splitlines()
+
+p_neg = [float(i) for i in p_neg]
+
 
 app.layout = html.Div([
     html.H1(children='CDiffense'),
@@ -20,7 +32,7 @@ app.layout = html.Div([
     html.Div('',style={'padding':10}),
 
     html.Div([
-        html.Label('Admission Type',style={'font-weight':'bold'}),
+        html.Label('Admission Type'),
         dcc.Dropdown(
             id='adm_type',
             options=[
@@ -112,12 +124,17 @@ app.layout = html.Div([
     html.H3('',style={'padding':10}),
     html.H3('Risk Assessment'),
     html.Div(id='output'),
+#    html.Div('',style={'padding':10}),
+    html.Div(id='hist_cdiff_pos',style={'width':'850px','margin-right':'auto','margin-left':'auto'}),
+    #dcc.Graph(id='hist_cdiff_pos'),
+    html.Div('',style={'padding':10}),
+    dcc.Graph(id='hist_cdiff_neg')
 
 ],style={'width': '850px', 'margin-right': 'auto', 'margin-left': 'auto'})
 #columnCount': 1})
 
 @app.callback(
-    Output(component_id='output',component_property='children'),
+    [Output(component_id='output',component_property='children'),Output(component_id='hist_cdiff_pos',component_property='children'),Output(component_id='hist_cdiff_neg',component_property='figure')],
     [Input('adm_type', 'value'),
      Input('adm_loc', 'value'),
      Input('race', 'value'),
@@ -170,19 +187,22 @@ def update_outcome(adm_typ,adm_loc,race,age,temperature,heart_rate,symptoms,los)
     values.append(los)
     if symptoms != []:
         if (age == None) or (temperature == None) or (heart_rate == None):
-            return "ERROR: Are 'Ages', 'Temperature', or 'Heart Rate' filled in correctly?" 
+            return "ERROR: Are 'Ages', 'Temperature', or 'Heart Rate' filled in correctly?",dcc.Graph(figure = {'data': [go.Histogram(x=p_pos,histnorm='probability density')]}),{'data': [go.Histogram(x=p_neg,histnorm='probability density')]} 
         else:
             df = df.append(dict(zip(labels,values)),ignore_index=True)
             df.iloc[:,:].fillna(0,inplace=True)
             risk_value = model.predict_proba(df.iloc[-1:])[:,1]
-            return risk_value
+            return risk_value,dcc.Graph(figure = {'data': [go.Histogram(x=p_pos,histnorm='probability',name='C. Diff. positive patients')],'layout': go.Layout(title_text='C. Diff. positive patients',xaxis_title_text='Risk assessment',yaxis_title_text='Patient frequency',shapes=[go.layout.Shape(type="line",x0=float(risk_value),y0=0,x1=float(risk_value),y1=0.1,line=dict(color="Red",width=5))])}),{'data': [go.Histogram(x=p_neg,histnorm='probability',name='C. Diff. negative patients')],'layout': go.Layout(title_text='C. Diff. negative patients',xaxis_title_text='Risk assessment',yaxis_title_text='Patient frequency',shapes=[go.layout.Shape(type="line",x0=float(risk_value),y0=0,x1=float(risk_value),y1=0.02,line=dict(color="Red",width=5))])}
+#you can add lines to scatter plot
     else:
         if (age == None) or (temperature == None) or (heart_rate == None):
-            return "ERROR: Are 'Ages', 'Temperature', or 'Heart Rate' filled in correctly?" 
+            return "ERROR: Are 'Ages', 'Temperature', or 'Heart Rate' filled in correctly?", dcc.Graph(figure = {'data': [go.Histogram(x=p_pos,histnorm='probability')],'layout': go.Layout(title_text='C. Diff. positive patients',xaxis_title_text='Risk assessment',yaxis_title_text='Patient frequency')}),{'data': [go.Histogram(x=p_neg,histnorm='probability density')]} 
         else:
             df = df.append(dict(zip(labels,values)),ignore_index=True)
             df.iloc[:,:].fillna(0,inplace=True)
             risk_value = model.predict_proba(df.iloc[-1:])[:,1]
-            return risk_value
+            return risk_value, dcc.Graph(figure = {'data': [go.Histogram(x=p_pos,histnorm='probability',name='C. Diff. positive patients')],'layout': go.Layout(title_text='C. Diff. positive patients',xaxis_title_text='Risk assessment',yaxis_title_text='Patient frequency',shapes=[go.layout.Shape(type="line",x0=float(risk_value),y0=0,x1=float(risk_value),y1=0.1,line=dict(color="Red",width=5))])}),{'data': [go.Histogram(x=p_neg,histnorm='probability',name='C. Diff. negative patients')],'layout': go.Layout(title_text='C. Diff. negative patients',xaxis_title_text='Risk assessment',yaxis_title_text='Patient frequency',shapes=[go.layout.Shape(type="line",x0=float(risk_value),y0=0,x1=float(risk_value),y1=0.02,line=dict(color="Red",width=5))])}
+
+
 if __name__ == '__main__':
     app.run_server(debug=True)
