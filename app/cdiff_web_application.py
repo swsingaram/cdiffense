@@ -39,7 +39,6 @@ app.layout = html.Div([
                 {'label': 'Select one', 'value': 'SO'},
                 {'label': 'Elective', 'value': 'ELECTIVE'},
                 {'label': 'Emergency', 'value': 'EMERGENCY'},
-                {'label': 'Newborn', 'value': 'NEWBORN'},
                 {'label': 'Urgent', 'value': 'URGENT'}
             ],
             value='SO'
@@ -66,9 +65,9 @@ app.layout = html.Div([
             id='race',
             options=[
                  {'label': 'Select one', 'value': 'SO'},
-                 {'label': 'Black', 'value': 'BLACK/AFRICAN AMERICAN'},
+                 {'label': 'Black', 'value': 'BLACK'},
                 {'label': 'White', 'value': 'WHITE'},
-                {'label': 'Hispanic or Latino', 'value': 'HISPANIC OR LATINO'},
+                {'label': 'Hispanic or Latino', 'value': 'HISPANIC'},
                 {'label': 'Asian', 'value': 'ASIAN'},
                 {'label': 'Other', 'value': 'OTHER'}
             ],
@@ -98,13 +97,13 @@ app.layout = html.Div([
             {'label': 'Sepsis', 'value': 'SEPSIS'},
             {'label': 'Pneumonia', 'value': 'PNEUMONIA'},
             {'label': 'Fever', 'value': 'FEVER'},
-            {'label': 'Congestive Heart Failure', 'value': 'CONGESTIVE HEART FAILURE'},
+            {'label': 'Bacteremia', 'value': 'BACTEREMIA'},
             {'label': 'Hypotension', 'value': 'HYPOTENSION'},
             {'label': 'Abdominal Pain', 'value': 'ABDOMINAL PAIN'},
-            {'label': 'Altered Mental Status', 'value': 'ALTERED MENTAL STATUS'},
+            {'label': 'Dehydration', 'value': 'DEHYDRATION'},
             {'label': 'Colitis', 'value':'COLITIS'},
             {'label': 'Pancreatitis', 'value':'PANCREATITIS'},
-            {'label': 'Upper GI Bleed', 'value':'UPPER GI BLEED'},
+            {'label': 'GI Bleed', 'value':'GI BLEED'},
             {'label': 'Diarrhea', 'value':'DIARRHEA'}
         ],
         value=[]
