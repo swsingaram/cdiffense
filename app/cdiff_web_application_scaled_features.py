@@ -31,8 +31,9 @@ app.layout = html.Div([
    ''')),
 
     html.Div('',style={'padding':10}),
-
+    
     html.Div([
+        html.Div([
         html.Label('Admission Type'),
         dcc.Dropdown(
             id='adm_type',
@@ -43,8 +44,10 @@ app.layout = html.Div([
                 {'label': 'Urgent', 'value': 'URGENT'}
             ],
             value='SO'
-        ,style={'columnCount':1}),
-      
+        )
+        ],style={'width':'30%', 'display':'inline-block','vertical-align':'top','padding-right':'1%'}),
+
+        html.Div([
         html.Label('Admission Location'),
         dcc.Dropdown(
             id='adm_loc',
@@ -60,7 +63,10 @@ app.layout = html.Div([
                 {'label': 'Transfer within this facility', 'value':'TRSF WITHIN THIS FACILITY'}
             ],
             value='SO'
-        ,style={'columnCount':1}),
+        )
+        ],style={'width': '30%', 'display': 'inline-block','vertical-align': 'top', 'padding-right':'1%'}),
+
+        html.Div([
         html.Label('Ethnicity'),
         dcc.Dropdown(
             id='race',
@@ -73,21 +79,25 @@ app.layout = html.Div([
                 {'label': 'Other', 'value': 'OTHER'}
             ],
             value='SO'
-        ,style={'columnCount':1})
+        )
+       ],style={'width': '30%', 'display': 'inline-block','vertical-align': 'top'})
 
-   ],style={'columnCount':3}),
+   ],style={'columnCount':1}),
 
     html.Div('',style={'padding':10}),
     html.Div([
+    html.Div([
     html.Label('Age:'),
-    dcc.Input(id='age',placeholder='enter age',type='text',style={'columnCount':1}),
-
+    dcc.Input(id='age',placeholder='enter age',type='text')],style={'width': '31%', 'display': 'inline-block','vertical-align' : 'top'}),
+    html.Div([
     html.Label('Body Temperature (F):'),
-    dcc.Input(id='temperature',placeholder='enter temperature',type='text',style={'columnCount':1}),
+    dcc.Input(id='temperature',placeholder='enter temperature',type='text')],style={'width':'31%','display':'inline-block','vertical-align':'top'}),
 
+    html.Div([
     html.Label('Heart Rate (beats per min):'),
-    dcc.Input(id='heart_rate',placeholder='enter heart rate',type='text',style={'columnCount':1})
-    ],style={'columnCount':3}),
+    dcc.Input(id='heart_rate',placeholder='enter heart rate',type='text')],style={'width':'33%','display':'inline-block','vertical-align':'top'})
+
+    ],style={'columnCount':1}),
 
     html.Div('',style={'padding':10}),
 
