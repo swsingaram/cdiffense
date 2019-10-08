@@ -154,8 +154,9 @@ app.layout = html.Div([
 def update_outcome(n,adm_typ,adm_loc,race,age,temperature,heart_rate,symptoms,los):
     if n:
         model = joblib.load("../models/logistic_regressor_scaled_features.mdl")
-        df = pd.read_csv("../data/df_for_app_ver2.csv",index_col=0)
-  
+        #df = pd.read_csv("../data/df_for_app_ver2.csv",index_col=0)
+        df = pd.read_csv("../data/df_for_app_ver3.csv",index_col=0)
+
         labels = []
         values = []
         #admission type
