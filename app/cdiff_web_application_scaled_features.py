@@ -266,7 +266,7 @@ def update_outcome(n,adm_typ,adm_loc,race,age,temperature,heart_rate,symptoms,lo
                                              yaxis_title_font_size=20,yaxis_tickfont_size=20,
                                              shapes= graph_shapes)
 
-                return message,{'data': graph_data_postive,'layout': graph_layout_postive },{'data': graph_data_negative,'layout': graph_layout_negative}
+            return message,{'data': graph_data_postive,'layout': graph_layout_postive },{'data': graph_data_negative,'layout': graph_layout_negative}
    
     else:
         return "",{},{}
