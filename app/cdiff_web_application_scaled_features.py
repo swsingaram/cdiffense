@@ -136,7 +136,9 @@ app.layout = html.Div([
     #html.Div(id='hist_cdiff_pos',style={'width':'850px','margin-right':'auto','margin-left':'auto'}),
     dcc.Graph(id='hist_cdiff_pos'),
     html.Div('',style={'padding':10}),
-    dcc.Graph(id='hist_cdiff_neg')
+    dcc.Graph(id='hist_cdiff_neg'),
+    html.Div(['A short presentation of CDiffense can be found ', html.A('here', href='https://www.slideshare.net/SurendraWSingaram/c-diffense-179826520')]),
+    html.Div(['The source code for CDiffense is ', html.A('here',href='https://github.com/swsingaram/cdiffense.git')])
 
 ],style={'width': '850px', 'margin-right': 'auto', 'margin-left': 'auto'})
 #columnCount': 1})
