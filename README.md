@@ -12,7 +12,9 @@ MIMIC-III (Medical Information Mart for Intensive Care III) is a large, freely-a
 
 The database includes information such as demographics, vital sign measurements made at the bedside (~1 data point per hour), laboratory test results, procedures, medications, caregiver notes, imaging reports, and mortality (both in and out of hospital).  In this project, we will use the admissions table, the patient table, and the diagnostic table for our analysis.
 
-PostgreSQL was used to manipulate the following tables
+PostgreSQL was used to manipulate the following tables.
+
+Please see the notebook on [Cleaning and EDA](https://github.com/swsingaram/cdiffense/blob/master/CDiffense_cleanup_EDA.ipynb) for further details.
 
 ### Admissions Table
 
@@ -30,6 +32,9 @@ This table defines International Classification of Diseases Version 9 (ICD-9) co
 
 Patient inputs were both numerical (patient vitals, age, and length of stay) as well as categorical (admission type/location and preliminary diagnosis); the categorical variables were one-hot encoded.  CDiffense takes the patients inputs and calculates the probability the patient is in the *C. Diff.* positive class by using a binary classifier.  Logistic regression showed robust performance among the other binary classifiers it was tested against: a random forest model and a gradient-boosted random forest model.  (Performance was measured by the area under the ROC curve.)
 
+Please see the notebook on [Model Training and Testing](https://github.com/swsingaram/cdiffense/blob/master/CDIffense_Training_Cross-Validation_Testing_Feature_Importance.ipynb) for further details.
+
+CDiffense was deployed on Amazon AWS using Dash.  The source code of the app can be found [here](https://github.com/swsingaram/cdiffense/blob/master/app/cdiff_web_application_scaled_features.py)
 
 ## Acknowledgements
 
